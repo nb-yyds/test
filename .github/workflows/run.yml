@@ -34,7 +34,7 @@ jobs:
 
       - name: 开始
         id: run
+        env:
+          CONFIG: ${{ secrets.CONFIG }}
         run: |
-          user='${{ secrets.USER }}'
-          passwd='${{ secrets.PWD }}' 
-          node main.js ${user} ${passwd}
+          node main.js
