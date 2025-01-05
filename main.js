@@ -42,8 +42,7 @@ async function handlePostStep(data) {
     });
     console.log("刷步数请求结果：", res.data);
   } catch (error) {
-    console.error("发送刷步数请求失败", error);
-    process.exit(1);
+    throw Error("发送刷步数请求失败", error);
   }
 }
 
@@ -53,8 +52,7 @@ async function computedStepCount(userInfo) {
   try {
     const { data, status } = await axios.get(timeApi);
     if (status != 200) {
-      console.error("北京时间获取失败");
-      process.exit(1);
+      throw Error("北京时间获取失败");
     }
     let regex = /'(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})'/;
     let matches = data.match(regex);
@@ -90,20 +88,18 @@ async function computedStepCount(userInfo) {
       });
     }
   } catch (error) {
-    console.error(error || "北京时间获取失败");
-    process.exit(1);
+    throw Error(error || "北京时间获取失败");
   }
 }
+
 // 主程序
 async function signIn() {
-    const userInfo = JSON.parse(process.env.CONFIG || "{}");
+  const userInfo = JSON.parse(process.env.CONFIG || "{}");
   if (Object.keys(userInfo).length === 0) {
-    console.error("获取账号信息失败");
-    process.exit(1);
+    throw Error("获取账号信息失败");
   } else {
     computedStepCount(userInfo);
   }
 }
-
 
 signIn();
