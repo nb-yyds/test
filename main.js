@@ -26,7 +26,7 @@ const stepApiHeaders = {
 
 // 刷步数请求
 async function handlePostStep(fullBeijingTime, data) {
-  const tip = `准备发送请求：当前完整时间为：${fullBeijingTime}, \n账号信息：${data.phone}, \n需要刷的步数：${data.step}`;
+  const tip = `准备发送请求：当前完整时间为：${fullBeijingTime}, \n账号信息：${data.phone}, \n需要刷的步数：${data.num}`;
   console.info(tip);
 
   // 请求
@@ -41,8 +41,10 @@ async function handlePostStep(fullBeijingTime, data) {
       ],
     });
     console.log("刷步数请求结果：", res);
+    process.exit(1);
   } catch (error) {
     console.error("发送刷步数请求失败", error);
+    process.exit(1);
   }
 }
 
