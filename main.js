@@ -25,8 +25,8 @@ const stepApiHeaders = {
 };
 
 // 刷步数请求
-async function handlePostStep(fullBeijingTime, data) {
-  const tip = `准备发送请求：当前完整时间为：${fullBeijingTime}, \n账号信息：${data.phone}, \n需要刷的步数：${data.num}`;
+async function handlePostStep(data) {
+  const tip = `准备发送请求：\n账号信息：${data.phone}, \n需要刷的步数：${data.num}`;
   console.info(tip);
 
   // 请求
@@ -40,8 +40,7 @@ async function handlePostStep(fullBeijingTime, data) {
         },
       ],
     });
-    console.log("刷步数请求结果：", res);
-    process.exit(1);
+    console.log("刷步数请求结果：", res.data);
   } catch (error) {
     console.error("发送刷步数请求失败", error);
     process.exit(1);
@@ -69,7 +68,7 @@ async function computedStepCount(userInfo) {
       console.log("分钟：", minute); // 输出：42
 
       // 在时间范围内，刷对应的步数
-      let step = 25811;
+      let step = 25816;
       // if (7 <= hour && hour < 13) {
       //   // 早上：一般在9:30分触发
       //   step = Math.floor(Math.random() * (10000 - 18000 + 1)) + 18000;
@@ -84,7 +83,7 @@ async function computedStepCount(userInfo) {
       // }
 
       // 发送刷步数请求
-      handlePostStep(fullBeijingTime, {
+      handlePostStep({
         phone: userInfo.USER,
         pwd: userInfo.PWD,
         num: step,
