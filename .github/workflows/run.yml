@@ -1,21 +1,14 @@
 name: 刷步数
 
 on:
-  #push:
-  #  branches: [ main ]
-  #pull_request:
-  #  branches: [ main ]
-  watch:
-    types: started
-  workflow_dispatch:
-  
   schedule:
     - cron: '0 1,5,10 * * *'
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: user
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@main
       - name: Setup Node.js environment
