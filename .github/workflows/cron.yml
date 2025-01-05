@@ -4,6 +4,8 @@ on:
     workflows: ["刷步数"]
     types:
       - completed
+  workflow_dispatch:
+  
 jobs:
   repo-sync:
     runs-on: ubuntu-latest
