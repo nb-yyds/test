@@ -20,12 +20,11 @@ jobs:
         run: |
           echo "- Auto Sign-in run successful on $(date)" >> README.md
 
-      - name:  Commit and push changes
+      - name: Commit and push changes
         run: |
-          # git commit
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add .
-          git commit -m "Update README"
-          git push origin main
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+          git add README.md
+          git commit -m "Update README with successful run"
+          git push
           
