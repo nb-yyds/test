@@ -1,0 +1,46 @@
+name: Random Cron
+on:
+  workflow_run:
+    workflows: ["刷步数"]
+    types:
+      - completed
+jobs:
+  repo-sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    if: github.event.workflow_run.conclusion == 'success'
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.PAT }} #此处PAT需要申请，教程详见：https://www.jianshu.com/p/bb82b3ad1d11,需要repo和workflow权限
+      
+      - name:  Commit and push changes
+        run: |
+          # 当前cron分钟数，去空格
+          current_min=$(sed -nE "s/(- cron: ')([0-9]+).*/\2/p" .github/workflows/run.yml | xargs) 
+
+          echo "Current Minute: $current_min"
+
+          if ! [[ "$current_min" =~ ^[0-9]+$ ]]; then
+            echo "Error: current_min is not an integer."
+            exit 1
+          fi
+
+          # 生成一个与当前分钟数不同的随机数
+          new_min=$((RANDOM % 59))
+          while [ "$new_min" -eq "$current_min" ]; do
+            echo "Minutes repeated, continue to random"
+            new_min=$((RANDOM % 59))
+          done
+
+          # 替换分钟数
+          sed -i -E "s/(- cron: ')([0-9]+)( [^[:space:]]+ \* \* \*')/\1$new_min\3/" .github/workflows/run.yml
+          echo "New Minute: $new_min"
+          
+          # git commit
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "random cron"
+          git push origin master
+          
