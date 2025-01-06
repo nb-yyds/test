@@ -52,12 +52,14 @@ function computedStepCount(userInfo) {
   //  获取北京时间,在一定的时间内，刷对应的步数
 
   try {
-    const fullBeijingTime = dayjs().endOf().format("YYYY-MM-DD HH:mm:ss");
-    const hour = dayjs().startOf("hour").add(8).format("HH");
+    const niuyueFullTime = dayjs().endOf().format("YYYY-MM-DD HH:mm:ss");
+    const niuyueHour = dayjs().startOf("hour").format("HH");
     const minute = dayjs().startOf("minute").format("mm");
+    const hour = niuyueHour + 8;
 
     // 北京时间比美国纽约时间少8小时，需要加上
-    console.log("美国纽约时间：", fullBeijingTime); // 输出：2025-01-05 18:42:14+
+    console.log("美国纽约时间：", niuyueFullTime); // 输出：2025-01-05 18:42:14+
+    console.log("当前美国小时：", niuyueHour); // 输出：2025-01-05 18:42:14+
     console.log("当前北京小时：", hour); // 输出：18
     console.log("当前分钟数：", minute); // 输出：42
 
