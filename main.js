@@ -1,5 +1,6 @@
 import axios from "axios";
 import qs from "qs";
+import dayjs from "dayjs";
 
 // 北京时间接口
 const timeApi = "https://apps.game.qq.com/CommArticle/app/reg/gdate.php";
@@ -30,63 +31,56 @@ async function handlePostStep(data) {
   console.info(tip);
 
   // 请求
-  try {
-    const res = await axios.post(stepApi, data, {
-      headers: stepApiHeaders,
-      transformRequest: [
-        // 借用qs插件实现序列化
-        (data) => {
-          return qs.stringify(data);
-        },
-      ],
-    });
-    console.log("刷步数请求结果：", res.data);
-  } catch (error) {
-    throw Error("发送刷步数请求失败", error);
-  }
+  // try {
+  //   const res = await axios.post(stepApi, data, {
+  //     headers: stepApiHeaders,
+  //     transformRequest: [
+  //       // 借用qs插件实现序列化
+  //       (data) => {
+  //         return qs.stringify(data);
+  //       },
+  //     ],
+  //   });
+  //   console.log("刷步数请求结果：", res.data);
+  // } catch (error) {
+  //   throw Error("发送刷步数请求失败", error);
+  // }
 }
 
 // 根据北京时间,在一定的时间内，刷对应的步数
-async function computedStepCount(userInfo) {
+function computedStepCount(userInfo) {
   //  获取北京时间,在一定的时间内，刷对应的步数
+
   try {
-    const { data, status } = await axios.get(timeApi);
-    if (status != 200) {
-      throw Error("北京时间获取失败");
+    const fullBeijingTime = dayjs().endOf().format("YYYY-MM-DD HH:mm:ss");
+    const hour = dayjs().startOf("hour").format("HH");
+    const minute = dayjs().startOf("minute").format("mm");
+
+    console.log("完整的北京时间：", fullBeijingTime); // 输出：2025-01-05 18:42:14
+    console.log("小时：", hour); // 输出：18
+    console.log("分钟：", minute); // 输出：42
+
+    // 在时间范围内，刷对应的步数
+    let step = 26328;
+    if (7 <= hour && hour < 13) {
+      // 早上：一般在9:30分触发
+      step = Math.floor(Math.random() * (10000 - 18000 + 1)) + 18000;
+    } else if (13 <= hour && hour < 18) {
+      // 下午：一般在13：50分触发
+      step = Math.floor(Math.random() * (20000 - 23000 + 1)) + 23000;
+    } else if (18 <= hour && hour < 23) {
+      // 晚上：18点-23点
+      step = Math.floor(Math.random() * (23100 - 26999 + 1)) + 26999;
+    } else {
+      step = Math.max(Math.floor((1000 * (hour + minute)) / 10), 1);
     }
-    let regex = /'(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})'/;
-    let matches = data.match(regex);
-    if (matches) {
-      let fullBeijingTime = matches[1]; // 2025-01-05 18:42:14
-      let hour = fullBeijingTime.split(" ")[1].split(":")[0]; // 18
-      let minute = fullBeijingTime.split(" ")[1].split(":")[1]; // 42
 
-      console.log("完整的北京时间：", fullBeijingTime); // 输出：2025-01-05 18:42:14
-      console.log("小时：", hour); // 输出：18
-      console.log("分钟：", minute); // 输出：42
-
-      // 在时间范围内，刷对应的步数
-      let step = 26328;
-      if (7 <= hour && hour < 13) {
-        // 早上：一般在9:30分触发
-        step = Math.floor(Math.random() * (10000 - 18000 + 1)) + 18000;
-      } else if (13 <= hour && hour < 18) {
-        // 下午：一般在13：50分触发
-        step = Math.floor(Math.random() * (20000 - 23000 + 1)) + 23000;
-      } else if (18 <= hour && hour < 23) {
-        // 晚上：18点-23点
-        step = Math.floor(Math.random() * (23100 - 26999 + 1)) + 26999;
-      } else {
-        step = Math.max(Math.floor((1000 * (hour + minute)) / 10), 1);
-      }
-
-      // 发送刷步数请求
-      handlePostStep({
-        phone: userInfo.USER,
-        pwd: userInfo.PWD,
-        num: step,
-      });
-    }
+    // 发送刷步数请求
+    handlePostStep({
+      phone: userInfo.USER,
+      pwd: userInfo.PWD,
+      num: step,
+    });
   } catch (error) {
     throw Error(error || "北京时间获取失败");
   }
