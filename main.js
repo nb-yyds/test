@@ -55,7 +55,7 @@ function computedStepCount(userInfo) {
     const niuyueFullTime = dayjs().endOf().format("YYYY-MM-DD HH:mm:ss");
     const niuyueHour = dayjs().startOf("hour").format("HH");
     const minute = dayjs().startOf("minute").format("mm");
-    const hour = niuyueHour + 8;
+    const hour = (niuyueHour * 1) + 8;
 
     // 北京时间比美国纽约时间少8小时，需要加上
     console.log("美国纽约时间：", niuyueFullTime); // 输出：2025-01-05 18:42:14+
