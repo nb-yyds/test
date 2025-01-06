@@ -31,26 +31,25 @@ async function handlePostStep(data) {
   console.info(tip);
 
   // 请求
-  // try {
-  //   const res = await axios.post(stepApi, data, {
-  //     headers: stepApiHeaders,
-  //     transformRequest: [
-  //       // 借用qs插件实现序列化
-  //       (data) => {
-  //         return qs.stringify(data);
-  //       },
-  //     ],
-  //   });
-  //   console.log("刷步数请求结果：", res.data);
-  // } catch (error) {
-  //   throw Error("发送刷步数请求失败", error);
-  // }
+  try {
+    const res = await axios.post(stepApi, data, {
+      headers: stepApiHeaders,
+      transformRequest: [
+        // 借用qs插件实现序列化
+        (data) => {
+          return qs.stringify(data);
+        },
+      ],
+    });
+    console.log("刷步数请求结果：", res.data);
+  } catch (error) {
+    throw Error("发送刷步数请求失败", error);
+  }
 }
 
 // 根据北京时间,在一定的时间内，刷对应的步数
 function computedStepCount(userInfo) {
   //  获取北京时间,在一定的时间内，刷对应的步数
-
   try {
     const niuyueFullTime = dayjs().endOf().format("YYYY-MM-DD HH:mm:ss");
     const niuyueHour = dayjs().startOf("hour").format("HH");
@@ -64,7 +63,7 @@ function computedStepCount(userInfo) {
     console.log("当前分钟数：", minute); // 输出：42
 
     // 在时间范围内，刷对应的步数
-    let step = 26328;
+    let step = 23328;
     if (7 <= hour && hour < 13) {
       // 早上：一般在9:30分触发
       step = Math.floor(Math.random() * (10000 - 18000 + 1)) + 18000;
