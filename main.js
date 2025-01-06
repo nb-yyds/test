@@ -53,12 +53,13 @@ function computedStepCount(userInfo) {
 
   try {
     const fullBeijingTime = dayjs().endOf().format("YYYY-MM-DD HH:mm:ss");
-    const hour = dayjs().startOf("hour").format("HH");
+    const hour = dayjs().startOf("hour").add(8).format("HH");
     const minute = dayjs().startOf("minute").format("mm");
 
-    console.log("完整的北京时间：", fullBeijingTime); // 输出：2025-01-05 18:42:14
-    console.log("小时：", hour); // 输出：18
-    console.log("分钟：", minute); // 输出：42
+    // 北京时间比美国纽约时间少8小时，需要加上
+    console.log("美国纽约时间：", fullBeijingTime); // 输出：2025-01-05 18:42:14+
+    console.log("当前北京小时：", hour); // 输出：18
+    console.log("当前分钟数：", minute); // 输出：42
 
     // 在时间范围内，刷对应的步数
     let step = 26328;
