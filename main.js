@@ -54,14 +54,15 @@ function delay(time) {
 }
 
 // 获取code
-function resMatchCode(location) {
-  const regex = /access=([a-zA-Z0-9]+)/;
+function getMatchCode(location) {
+  const regex = /(?<=access=).*?(?=&)/;
   const match = location.match(regex);
   if (match) {
-    return match[1];
+    return match[0];
   }
   throw new Error("Code not found");
 }
+
 async function getHuaMiCode({ phone, pwd }) {
   const url = "https://api-user.huami.com/registrations/" + phone + "/tokens";
 
@@ -91,8 +92,10 @@ async function getHuaMiCode({ phone, pwd }) {
     });
     // 得到的location：其实就是redirect重定向的url
     // https://s3-us-west-2.amazonaws.com/hm-registration/successsignin.html?region=us-west-2&access=ZQVBQDZOQmJaR0YyajYmWnJoBAgAAAAAAYT1aalZyUWFCcnFrUXVzNFdBQmt5RVJCQUFBQVpVUEhHaEcmcj0xMiZ0PWh1YW1pJnRpPXl5ZHNAMTYzLmNuJmg9MTczOTcxNTM1NzEwNCZpPTg2NDAwMCZ1c2VybmFtZT15eWRzyf4KPuwRhTEVaHebQRJ8kQ&country_code=CN&expiration=1740579357
-    console.log(111, response.request._header)
-    const code = resMatchCode(response.data);
+    const location = response.request._header;
+    console.log(111, location)
+    const code = getMatchCode(location);
+    console.log(222, code)
     // 1min 后再发送请求
     await delay(60);
     getHuaMiToken(code);
