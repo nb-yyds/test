@@ -164,7 +164,7 @@ async function handleRunStep(params) {
       const response = await axios.post(url, data, {
         headers: headers,
       });
-      console.log("刷步数结果：", response.data)
+      console.log("要刷的步数值：", num, "刷步数结果：", response.data)
     } catch (error) {
       throw Error("刷步数失败", error);
     }
