@@ -136,7 +136,7 @@ async function getHuaMiToken(params, code) {
 }
 
 async function handleRunStep(params) {
-  const { app_token = "", user_id = "", num } = params;
+  const { app_token = "", user_id = "", step } = params;
   const time = Date.now();
   const url = `https://api-mifit-cn.huami.com/v1/data/band_data.json?&t=${time}`;
   const headers = {
@@ -154,7 +154,7 @@ async function handleRunStep(params) {
 
 
   data_json = data_json.replace(finddate.exec(data_json)[1], today);
-  data_json = data_json.replace(findstep.exec(data_json)[1], num);
+  data_json = data_json.replace(findstep.exec(data_json)[1], step);
 
 
   const data = `userid=${user_id}&last_sync_data_time=1597306380&device_type=0&last_deviceid=DA932FFFFE8816E7&data_json=${data_json}`;
@@ -164,7 +164,7 @@ async function handleRunStep(params) {
       const response = await axios.post(url, data, {
         headers: headers,
       });
-      console.log("要刷的步数值：", num, "刷步数结果：", response.data)
+      console.log("要刷步数值：", step, "刷步数结果：", response.data)
     } catch (error) {
       throw Error("刷步数失败", error);
     }
@@ -204,7 +204,7 @@ function computedStepCount(userInfo) {
     getHuaMiCode({
       phone: userInfo.USER,
       pwd: userInfo.PWD,
-      num: step,
+      step: step,
     });
   } catch (error) {
     throw Error(error || "北京时间获取失败");
