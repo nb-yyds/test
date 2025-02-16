@@ -129,6 +129,7 @@ async function getHuaMiToken(params, code) {
     }
     // 1min 后再发送请求
     await delay(60);
+    console.log(1111, params.step)
     handleRunStep({ app_token, user_id, ...params });
   } catch (error) {
     throw Error("获取当前账号【token码】失败", error);
