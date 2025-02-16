@@ -4,14 +4,18 @@ import dayjs from "dayjs";
 
 // 北京时间接口
 const timeApi = "https://apps.game.qq.com/CommArticle/app/reg/gdate.php";
-// 刷步数接口
-const stepApi = `https://api.faithxy.com/motion/api/motion/Xiaomi?t=${Date.now()}`;
+
+// 2024——刷步数接口
+// const stepApi = `https://api.faithxy.com/motion/api/motion/Xiaomi?t=${Date.now()}`;
+// 2025——刷步数接口
+const stepApi = `http://8.140.250.130:8888/api/motion/Xiaomi?t=${Date.now()}`;
+
 // 刷步数请求头
 const stepApiHeaders = {
   accept: "*/*",
   "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,ja;q=0.7,zh-TW;q=0.6",
   "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-  Host: "api.faithxy.com",
+  Host: "8.140.250.130:8888",
   Origin: "http://8.140.250.130",
   Referer: "http://8.140.250.130/",
   "sec-ch-ua":
