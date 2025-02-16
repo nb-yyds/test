@@ -23,7 +23,14 @@ const stepApiHeaders = {
   "sec-fetch-site": "same-origin",
   "user-agent":
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
+  "X-Forwarded-For": generateIp()
 };
+
+// 随便找的国内IP段：223.64.0.0 - 223.117.255.255
+function generateIp() {
+  const random = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+  return `223.${random(64, 117)}.${random(0, 255)}.${random(0, 255)}`;
+}
 
 // 刷步数请求
 async function handlePostStep(data) {
