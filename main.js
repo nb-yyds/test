@@ -2,25 +2,6 @@ import axios from "axios";
 import qs from "qs";
 import dayjs from "dayjs";
 
-// 北京时间接口
-const timeApi = "https://apps.game.qq.com/CommArticle/app/reg/gdate.php";
-
-// 2024——刷步数接口
-// const stepApi = `https://api.faithxy.com/motion/api/motion/Xiaomi?t=${Date.now()}`;
-// 2025——刷步数接口
-const stepApi = `http://8.140.250.130:8888/api/motion/Xiaomi?t=${Date.now()}`;
-
-// 刷步数请求头
-const stepApiHeaders = {
-  accept: "*/*",
-  // "User-Agent": getRandomUserAgent(),
-  // "X-Forwarded-For": generateIp(),
-
-  "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-  "User-Agent":
-    "Mozilla/5.0 (iPhone; CPU iPhone OS 14_7_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.2",
-};
-
 // 随便找的国内IP段：223.64.0.0 - 223.117.255.255
 function generateIp() {
   const random = (min, max) =>
@@ -68,6 +49,7 @@ async function getHuaMiCode(params) {
   const url = "https://api-user.huami.com/registrations/" + phone + "/tokens";
 
   const headers = {
+    "X-Forwarded-For": generateIp(),
     "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
     "User-Agent":
       "Mozilla/5.0 (iPhone; CPU iPhone OS 14_7_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.2",
@@ -154,7 +136,7 @@ async function getHuaMiToken(params, code) {
 }
 
 async function handleRunStep(params) {
-  const { app_token = "", user_id = "", phone, pwd, num } = params;
+  const { app_token = "", user_id = "", num } = params;
   const time = Date.now();
   const url = `https://api-mifit-cn.huami.com/v1/data/band_data.json?&t=${time}`;
   const headers = {
@@ -182,7 +164,7 @@ async function handleRunStep(params) {
       const response = await axios.post(url, data, {
         headers: headers,
       });
-      console.log("刷步数结果：", response)
+      console.log("刷步数结果：", response.data)
     } catch (error) {
       throw Error("刷步数失败", error);
     }
@@ -231,18 +213,7 @@ function computedStepCount(userInfo) {
 
 // 主程序
 async function signIn() {
-  // const userInfo = JSON.parse(process.env.CONFIG || "{}");
-  const userInfo = {
-    USER: "yyds@163.cn",
-    PWD: "qq1216484317",
-    MIN_STEP: "18000",
-    MAX_STEP: "25000",
-    PUSH_PLUS_TOKEN: "",
-    PUSH_PLUS_HOUR: "",
-    PUSH_PLUS_MAX: "30",
-    SLEEP_GAP: "5",
-    USE_CONCURRENT: "False",
-  };
+  const userInfo = JSON.parse(process.env.CONFIG || "{}");
   if (Object.keys(userInfo).length === 0) {
     throw Error("获取账号信息失败");
   } else {
