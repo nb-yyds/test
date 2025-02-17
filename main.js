@@ -186,18 +186,18 @@ function computedStepCount(userInfo) {
     console.log("当前分钟数：", minute); // 输出：42
 
     // 在时间范围内，刷对应的步数
-    let step = 23328;
+    let step = 26888;
     if (7 <= hour && hour < 13) {
       // 早上：一般在9:30分触发
-      step = Math.floor(Math.random() * (10000 - 18000 + 1)) + 18000;
+      step = Math.floor(Math.random() * (10000 - 15000 + 1)) + 15000;
     } else if (13 <= hour && hour < 18) {
       // 下午：一般在13：50分触发
-      step = Math.floor(Math.random() * (20000 - 23000 + 1)) + 23000;
+      step = Math.floor(Math.random() * (16000 - 21000 + 1)) + 21000;
     } else if (18 <= hour && hour < 23) {
       // 晚上：18点-23点
-      step = Math.floor(Math.random() * (23100 - 26999 + 1)) + 26999;
+      step = Math.floor(Math.random() * (22999 - 25999 + 1)) + 25999;
     } else {
-      step = Math.max(Math.floor((1000 * (hour + minute)) / 10), 1);
+      step = 26888;
     }
 
     // 发送刷步数请求
