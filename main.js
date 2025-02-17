@@ -30,7 +30,7 @@ function getRandomUserAgent() {
 }
 
 // 延迟执行函数，github如果不间断发送请求，很大概率会失败
-function delay(time) {
+function delay(time = 10000) { // 默认10s
   return new Promise((resolve) => setTimeout(resolve, time));
 }
 
@@ -76,12 +76,12 @@ async function getHuaMiCode(params) {
     });
     // 得到的location：其实就是redirect重定向的url，然后从重定向url中解析出 access码
     // https://s3-us-west-2.amazonaws.com/hm-registration/successsignin.html?region=us-west-2&access=ZQVBQDZOQmJaR0YyajYmWnJoBAgAAAAAAYT1aalZyUWFCcnFrUXVzNFdBQmt5RVJCQUFBQVpVUEhHaEcmcj0xMiZ0PWh1YW1pJnRpPXl5ZHNAMTYzLmNuJmg9MTczOTcxNTM1NzEwNCZpPTg2NDAwMCZ1c2VybmFtZT15eWRzyf4KPuwRhTEVaHebQRJ8kQ&country_code=CN&expiration=1740579357
-    console.log("获取重定向的url", response.request.path)
+    // console.log("获取重定向的url", response.request._header)
     // 从url中解析出 access码
-    const location = response.request._header;
+    const location = response.request.path;
     const code = getMatchCode(location);
     // 10s 后再发送请求
-    await delay(600);
+    await delay();
     getHuaMiToken(params, code);
   } catch (error) {
     throw Error("获取当前账号【code码】失败", error);
@@ -130,7 +130,7 @@ async function getHuaMiToken(params, code) {
       throw Error("登录失败！");
     }
     // 10s 后再发送请求
-    await delay(600);
+    await delay();
     handleRunStep({ app_token, user_id, ...params });
   } catch (error) {
     throw Error("获取当前账号【token码】失败", error);
