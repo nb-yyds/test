@@ -74,8 +74,10 @@ async function getHuaMiCode(params) {
         },
       ],
     });
-    // 得到的location：其实就是redirect重定向的url
+    // 得到的location：其实就是redirect重定向的url，然后从重定向url中解析出 access码
     // https://s3-us-west-2.amazonaws.com/hm-registration/successsignin.html?region=us-west-2&access=ZQVBQDZOQmJaR0YyajYmWnJoBAgAAAAAAYT1aalZyUWFCcnFrUXVzNFdBQmt5RVJCQUFBQVpVUEhHaEcmcj0xMiZ0PWh1YW1pJnRpPXl5ZHNAMTYzLmNuJmg9MTczOTcxNTM1NzEwNCZpPTg2NDAwMCZ1c2VybmFtZT15eWRzyf4KPuwRhTEVaHebQRJ8kQ&country_code=CN&expiration=1740579357
+    console.log("获取重定向的url", response.request.path)
+    // 从url中解析出 access码
     const location = response.request._header;
     const code = getMatchCode(location);
     // 10s 后再发送请求
