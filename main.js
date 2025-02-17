@@ -30,7 +30,7 @@ function getRandomUserAgent() {
 }
 
 // 延迟执行函数，github如果不间断发送请求，很大概率会失败
-function delay(time = 10000) { // 默认10s
+function delay(time = 5000) { // 默认5s
   return new Promise((resolve) => setTimeout(resolve, time));
 }
 
