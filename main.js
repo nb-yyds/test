@@ -78,8 +78,8 @@ async function getHuaMiCode(params) {
     // https://s3-us-west-2.amazonaws.com/hm-registration/successsignin.html?region=us-west-2&access=ZQVBQDZOQmJaR0YyajYmWnJoBAgAAAAAAYT1aalZyUWFCcnFrUXVzNFdBQmt5RVJCQUFBQVpVUEhHaEcmcj0xMiZ0PWh1YW1pJnRpPXl5ZHNAMTYzLmNuJmg9MTczOTcxNTM1NzEwNCZpPTg2NDAwMCZ1c2VybmFtZT15eWRzyf4KPuwRhTEVaHebQRJ8kQ&country_code=CN&expiration=1740579357
     const location = response.request._header;
     const code = getMatchCode(location);
-    // 1min 后再发送请求
-    await delay(60);
+    // 10s 后再发送请求
+    await delay(600);
     getHuaMiToken(params, code);
   } catch (error) {
     throw Error("获取当前账号【code码】失败", error);
@@ -127,8 +127,8 @@ async function getHuaMiToken(params, code) {
     if (!app_token) {
       throw Error("登录失败！");
     }
-    // 1min 后再发送请求
-    await delay(60);
+    // 10s 后再发送请求
+    await delay(600);
     handleRunStep({ app_token, user_id, ...params });
   } catch (error) {
     throw Error("获取当前账号【token码】失败", error);
