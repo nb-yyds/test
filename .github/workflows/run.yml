@@ -26,4 +26,4 @@ jobs:
         env:
           CONFIG: ${{ secrets.CONFIG }}
         run: |
-          node main.js
+          node main_online.js
