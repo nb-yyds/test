@@ -8,6 +8,7 @@ import dayjs from 'dayjs'
 // 3、修改handlePostStep方法中的data参数为对应接口参数
 // 4、修改 .github/workflows/run.yml 文件中的启动命令：node main_online.js
 // 5、剩下的不需要改动
+// 6、本地调试：从gitee中下载lenovo仓库进行本地调试
 
 // 2025——在线刷步数接口
 const stepApi = `https://wzz.wangzouzou.com/motion/api/motion/Xiaomi?t=${Date.now()}`
