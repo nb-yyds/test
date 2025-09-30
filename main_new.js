@@ -271,12 +271,11 @@ function computedStepCount(userInfo) {
     } else if (13 <= hour && hour < 18) {
       // 下午：一般在13：50分触发
       // step = Math.floor(Math.random() * (16000 - 21000 + 1)) + 21000
-      // step = 19992
     } else if (18 <= hour && hour < 23) {
       // 晚上：18点-23点
       step = Math.floor(Math.random() * (22999 - 25999 + 1)) + 25999
     } else {
-      step = 26888
+      step = 19992
     }
     console.log('通过当前时间计算出step值为：', step)
 
