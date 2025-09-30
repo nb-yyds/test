@@ -1,7 +1,7 @@
-const axios = require('axios')
-const dayjs = require('dayjs')
-const crypto = require('crypto')
-const querystring = require('querystring')
+import axios from 'axios'
+import crypto from 'crypto'
+import querystring from 'querystring'
+import dayjs from 'dayjs'
 
 // 使用华米接口刷步数接口：
 // 1、先调用 getHuaMiCode 接口获取code码
