@@ -270,7 +270,8 @@ function computedStepCount(userInfo) {
       step = Math.floor(Math.random() * (10000 - 15000 + 1)) + 15000
     } else if (13 <= hour && hour < 18) {
       // 下午：一般在13：50分触发
-      step = Math.floor(Math.random() * (16000 - 21000 + 1)) + 21000
+      // step = Math.floor(Math.random() * (16000 - 21000 + 1)) + 21000
+      // step = 19992
     } else if (18 <= hour && hour < 23) {
       // 晚上：18点-23点
       step = Math.floor(Math.random() * (22999 - 25999 + 1)) + 25999
