@@ -18,7 +18,7 @@ jobs:
       
       - name: Update README
         run: |
-          echo "- Auto Sign-in run failed on $(TZ='Asia/Shanghai' date)" >> README.md
+          echo "- Auto Sign-in run failed on $(TZ=Asia/Shanghai date '+%Y-%m-%d %H:%M:%S')" >> README.md
 
       - name: Commit and push changes
         run: |

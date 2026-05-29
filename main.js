@@ -40,6 +40,23 @@ import nodemailer from 'nodemailer'
 //   }
 // }
 
+// ====== 脱敏函数：隐藏敏感字段 ======
+function maskSensitive(obj) {
+  if (Array.isArray(obj)) return obj.map(maskSensitive)
+  if (obj && typeof obj === 'object') {
+    const result = {}
+    for (const [key, value] of Object.entries(obj)) {
+      if (['pwd', 'password', 'email', 'from'].includes(key)) {
+        result[key] = '****'
+      } else {
+        result[key] = maskSensitive(value)
+      }
+    }
+    return result
+  }
+  return obj
+}
+
 // ====== 随便找的国内IP段：223.64.0.0 - 223.117.255.255 ======
 function generateIp() {
   const random = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min
@@ -138,7 +155,7 @@ async function sendFailureEmail(emailConfig, account, errorMessage) {
     }
 
     await transporter.sendMail(mailOptions)
-    console.log(`失败邮件已发送至 ${account.email}`)
+    console.log(`失败邮件已发送至 ${account.email.replace(/(.{2}).*(@.*)/, '$1****$2')}`)
   } catch (error) {
     console.error('发送失败邮件出错：', error.message || error)
   }
@@ -355,7 +372,8 @@ async function signIn() {
   const config = JSON.parse(process.env.CONFIG || '{}')
   const accounts = config.accounts || []
   const emailConfig = config.email || null
-  console.log("=============> 获取账号信息", config)
+  console.log("=============> 获取账号信息", JSON.stringify(maskSensitive(config)))
+
   if (accounts.length === 0) {
     throw Error('未配置任何账号信息')
   }
