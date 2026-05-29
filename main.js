@@ -46,7 +46,10 @@ function maskSensitive(obj) {
   if (obj && typeof obj === 'object') {
     const result = {}
     for (const [key, value] of Object.entries(obj)) {
-      if (['pwd', 'password', 'email', 'from'].includes(key)) {
+      if (['user'].includes(key)) {
+        // user 是账号名称，不脱敏，完整展示
+        result[key] = value
+      } else if (['pwd', 'password', 'email', 'from'].includes(key)) {
         result[key] = '****'
       } else {
         result[key] = maskSensitive(value)
