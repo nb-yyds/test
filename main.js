@@ -355,7 +355,7 @@ async function signIn() {
   const config = JSON.parse(process.env.CONFIG || '{}')
   const accounts = config.accounts || []
   const emailConfig = config.email || null
-
+  console.log("=============> 获取账号信息", config)
   if (accounts.length === 0) {
     throw Error('未配置任何账号信息')
   }
